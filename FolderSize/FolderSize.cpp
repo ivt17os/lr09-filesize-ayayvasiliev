@@ -1,3 +1,5 @@
+// ÂÀÑÈËÜÅÂ ÀÉÒÀË
+
 #include <windows.h>
 #include <stdio.h>
 #include <TCHAR.h>
