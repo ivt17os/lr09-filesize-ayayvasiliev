@@ -1,4 +1,4 @@
-// ¬ј—»Ћ№≈¬ ј…“јЋ
+//  васильев айтал
 
 #include <windows.h>
 #include <stdio.h>
@@ -7,7 +7,8 @@
  
 static int count;
 static long long size;
- 
+
+
 void dfs() {
     // начинает перебор файлов и папок в текущей папке
     // 1) папки . и .. пропускаем
@@ -21,7 +22,6 @@ void dfs() {
     hFind = FindFirstFile(L"*", &res);   // найти первый файл
  
     do {
-		count++; // некоторые файлы не считаютс€??
 		if (res.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY && 
 			_tcscmp(res.cFileName, TEXT("..")) && 
 			_tcscmp(res.cFileName, TEXT(".")) ) { // если это подпапка
@@ -29,9 +29,15 @@ void dfs() {
 				dfs();
 				SetCurrentDirectory(TEXT(".."));
 		}
-		else {// это файл
-			size += res.nFileSizeLow + res.nFileSizeHigh; 
-			_tprintf(TEXT("file #%d is <%s>\n"), count, res.cFileName);
+		else
+        if (!(res.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ) {// это файл
+		    count++;
+            long long filesize;
+            filesize = res.nFileSizeHigh;
+            filesize = filesize << 32;
+            filesize = filesize + res.nFileSizeLow;
+            size = filesize;
+            _tprintf(TEXT("file #%d is <%s>\n"), count, res.cFileName);
 		}
     } while (FindNextFile(hFind, &res) != 0);
     FindClose(hFind);
